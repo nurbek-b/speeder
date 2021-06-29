@@ -82,7 +82,7 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
     _getUserLocation();
 
     _maxVelocityPerDay =
-        Hive.box('statistics').get('maxVelocityPerDay').toInt();
+        Hive.box('statistics').get('maxVelocityPerDay') ?? 0;
 
     /// Speedometer functionality. Updates any time velocity chages.
     locator

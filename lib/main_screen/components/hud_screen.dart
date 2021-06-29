@@ -60,7 +60,7 @@ class _LiveHudScreenState extends State<LiveHudScreen> {
     super.initState();
 
     /// Getting initial coordinates and saving to Hive
-    _maxVelocityPerDay = Hive.box('statistics').get('maxVelocityPerDay').toInt();
+    _maxVelocityPerDay = Hive.box('statistics').get('maxVelocityPerDay') ?? 0;
 
     /// Speedometer functionality. Updates any time velocity chages.
     locator

@@ -85,7 +85,7 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
 
     /// Getting initial coordinates and saving to Hive
     _maxVelocityPerDay =
-        Hive.box('statistics').get('maxVelocityPerDay').toInt();
+        Hive.box('statistics').get('maxVelocityPerDay') ?? 0;
 
     /// Speedometer functionality. Updates any time velocity chages.
     locator
@@ -183,7 +183,6 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
                       rotateGesturesEnabled: false,
                       scrollGesturesEnabled: false,
                       onMapCreated: (controller) {
-                        print('map Created');
                         Future.delayed(Duration(milliseconds: 1)).then(
                           (_) {
                             controller.animateCamera(
@@ -202,23 +201,6 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
                         );
                       },
                     )),
-                    Align(
-                      alignment: Alignment(-0.9, -0.8),
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(bottom: 16.0, right: 16.0),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                            print('Gone back');
-                          },
-                          child: Icon(
-                            CupertinoIcons.left_chevron,
-                            size: 35,
-                          ),
-                        ),
-                      ),
-                    ),
                     Align(
                       alignment: Alignment(-0.9, -0.8),
                       child: Padding(
@@ -280,6 +262,23 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
                       color: Colors.black54,
                       child: Center(
                         child: Image.asset('assets/icons/lock_icon.png'),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment(-0.9, -0.8),
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.only(bottom: 16.0, right: 16.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                            print('Gone back');
+                          },
+                          child: Icon(
+                            CupertinoIcons.left_chevron,
+                            size: 35,
+                          ),
+                        ),
                       ),
                     ),
                     Align(

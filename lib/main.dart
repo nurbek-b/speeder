@@ -34,13 +34,12 @@ void main() async {
   DateTime now = DateTime.now();
   String formattedDate = DateFormat('yyyy-MM-dd').format(now);
   print(formattedDate);
-  print(Hive.box('statistics').get(formattedDate));
-  var distanceInit = Hive.box('statistics').get(formattedDate);
-  var maxSpeed = Hive.box('statistics').get('maxVelocityPerDay');
+  var distanceInit = Hive.box('statistics').get(formattedDate) ?? null;
+  var maxSpeed = Hive.box('statistics').get('maxVelocityPerDay') ?? null;
 
   if (distanceInit == null) {
     print('adding data');
-    Hive.box('statistics').put(formattedDate.toString(), 0.0.toString());
+    Hive.box('statistics').put(formattedDate, 0.0.toString());
   } else if (maxSpeed == null) {
     Hive.box('statistics').put('maxVelocityPerDay', 0);
   }
