@@ -29,40 +29,40 @@ class ProfileItem extends StatelessWidget {
         ),
       ),
       height: getProportionateScreenHeight(80),
-      child: Row(
-        children: [
-          SizedBox(width: getProportionateScreenWidth(10),),
-          Image.asset(icon),
-          SizedBox(width: getProportionateScreenWidth(10),),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'BarlowCondensed-Regular',
+      child: InkWell(
+        onTap: onPressed,
+        child: Row(
+          children: [
+            SizedBox(width: getProportionateScreenWidth(10),),
+            Image.asset(icon),
+            SizedBox(width: getProportionateScreenWidth(10),),
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'BarlowCondensed-Regular',
+              ),
             ),
-          ),
-          Spacer(),
-          Text(
-            actual,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'BarlowCondensed-Regular',
+            Spacer(),
+            Text(
+              actual,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'BarlowCondensed-Regular',
+              ),
             ),
-          ),
-          SizedBox(width: getProportionateScreenWidth(10),),
-          InkWell(
-            onTap: onPressed,
-            child: Icon(
+            SizedBox(width: getProportionateScreenWidth(10),),
+            Icon(
               CupertinoIcons.right_chevron,
               color: Colors.white,
             ),
-          ),
-          SizedBox(width: getProportionateScreenWidth(5),)
-        ],
+            SizedBox(width: getProportionateScreenWidth(5),)
+          ],
+        ),
       ),
     );
   }

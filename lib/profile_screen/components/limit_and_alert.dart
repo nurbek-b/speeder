@@ -18,7 +18,7 @@ class LimitAndAlert extends StatefulWidget {
 
 class _LimitAndAlertState extends State<LimitAndAlert> {
   bool _alert = false;
-  late int selectedValue;
+  int selectedValue = 3;
 
   List<int> limits = [40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240];
 
@@ -51,8 +51,6 @@ class _LimitAndAlertState extends State<LimitAndAlert> {
                     TextButton(
                       onPressed: () {
                         int limit = limits.elementAt(selectedValue);
-                        print(limit);
-                        print(limit.runtimeType);
                         Navigator.pop(context);
                         context
                             .read<MainScreenBloc>()
@@ -74,6 +72,7 @@ class _LimitAndAlertState extends State<LimitAndAlert> {
                           CupertinoTextThemeData(pickerTextStyle: TextStyle()),
                     ),
                     child: CupertinoPicker(
+                      scrollController: FixedExtentScrollController(initialItem: 3),
                       magnification: 1.5,
                       useMagnifier: true,
                       onSelectedItemChanged: (value) {
@@ -165,7 +164,7 @@ class _LimitAndAlertState extends State<LimitAndAlert> {
                 ),
                 Container(
                   height: getProportionateScreenHeight(80),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                     color: Color(0xFF252525),
                     borderRadius: BorderRadius.all(
@@ -177,35 +176,33 @@ class _LimitAndAlertState extends State<LimitAndAlert> {
                       unselectedWidgetColor: Color(0xFFA7A7A7),
                       fontFamily: 'BarlowCondensed-Regular',
                     ),
-                    child: ListTile(
-                      leading: Image.asset('assets/icons/limit_icon.png'),
-                      trailing: InkWell(
-                        onTap: () {
-                          showPicker();
-                        },
-                        child: Icon(
+                    child: InkWell(
+                      onTap: showPicker,
+                      child: ListTile(
+                        leading: Image.asset('assets/icons/limit_icon.png'),
+                        trailing: Icon(
                           CupertinoIcons.chevron_forward,
                           color: Color(0xFFA7A7A7),
                         ),
-                      ),
-                      title: Row(
-                        children: [
-                          Text(
-                            'SPEED LIMIT',
-                            style: new TextStyle(
-                              fontSize: 24.0,
-                              color: Colors.white,
+                        title: Row(
+                          children: [
+                            Text(
+                              'SPEED LIMIT',
+                              style: new TextStyle(
+                                fontSize: 24.0,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          Spacer(),
-                          Text(
-                            state.velocityLimit.toString(),
-                            style: new TextStyle(
-                              fontSize: 24.0,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
+                            Spacer(),
+                            Text(
+                              state.velocityLimit.toString(),
+                              style: new TextStyle(
+                                fontSize: 24.0,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

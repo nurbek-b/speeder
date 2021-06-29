@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /* Local dependencies */
 import '../size_config.dart';
@@ -12,6 +13,11 @@ import 'components/limit_and_alert.dart';
 import 'components/profile_item.dart';
 import 'components/scale_checkbox.dart';
 import 'components/speed_unit_checkbox.dart';
+
+const String privacyPolicy =
+    'https://translate.google.com/?sl=en&tl=ru&text=privacy%20policy&op=translate';
+const String termsOfUse =
+    'https://translate.google.com/?sl=en&tl=ru&text=terms%20of%20use%0A&op=translate';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -164,27 +170,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Radius.circular(5),
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'PRIVACY POLICY',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 24,
+                    child: InkWell(
+                      onTap: showPrivacyPolicy,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
                           ),
-                        ),
-                        Spacer(),
-                        IconButton(
-                            icon: Icon(
-                              CupertinoIcons.chevron_forward,
+                          Text(
+                            'PRIVACY POLICY',
+                            style: TextStyle(
                               color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 24,
                             ),
-                            onPressed: () {}),
-                      ],
+                          ),
+                          Spacer(),
+                          Icon(
+                            CupertinoIcons.chevron_forward,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -201,27 +208,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Radius.circular(5),
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'TERMS OF USE',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 24,
+                    child: InkWell(
+                      onTap: showTermsOfUse,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
                           ),
-                        ),
-                        Spacer(),
-                        IconButton(
-                            icon: Icon(
-                              CupertinoIcons.chevron_forward,
+                          Text(
+                            'TERMS OF USE',
+                            style: TextStyle(
                               color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 24,
                             ),
-                            onPressed: () {}),
-                      ],
+                          ),
+                          Spacer(),
+                          Icon(CupertinoIcons.chevron_forward,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -231,5 +238,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  showTermsOfUse() {
+    launch(termsOfUse);
+  }
+
+  showPrivacyPolicy() {
+    launch(privacyPolicy);
   }
 }

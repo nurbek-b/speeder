@@ -22,8 +22,8 @@ class MainScreenState {
     /* Speeds */
     this.velocity = 0,
     this.minVelocity = 0,
-    this.maxVelocity = 210,
-    this.velocityLimit = 60,
+    this.maxVelocity = 120,
+    this.velocityLimit = 120,
     this.overVelocityAlert = false,
     this.velocityUnit = 'KMH',
     this.scale = '0-60',
@@ -42,11 +42,11 @@ class MainScreenState {
     /* Speeds */
     int velocity = 0,
     int minVelocity = 0,
-    int maxVelocity = 210,
-    int velocityLimit = 60,
+    int maxVelocity = 120,
+    int velocityLimit = 120,
     bool overVelocityAlert = false,
     String velocityUnit = 'KMH',
-    String scale = '0-60',
+    String scale = '0-120',
 
     /* Geo */
     double? latitude,

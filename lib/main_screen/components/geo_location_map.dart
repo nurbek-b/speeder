@@ -40,21 +40,19 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
 
   /// Velocity limit.
   late double _velocityLimit;
+  late double _maxVelocity;
   late int _maxVelocityPerDay;
 
-  /// Velocity in m/s to km/hr converter
-  double mpstokmph(double mps) => mps * 18 / 5;
-
   /// Velocity in m/s to miles per hour converter
-  double mpstomilesph(double mps) => mps * 85 / 38;
+  double kphtomilesph(double mps) => mps * 85 / 38;
 
   /// Relevant velocity in chosen unit
   String convertedVelocity(String unit, double velocity) {
     velocity = velocity;
 
     if (unit == 'KMH')
-      return mpstokmph(velocity).toInt().toString();
-    else if (unit == 'MPH') return mpstomilesph(velocity).toInt().toString();
+      return velocity.toInt().toString();
+    else if (unit == 'MPH') return kphtomilesph(velocity).toInt().toString();
     return velocity.toInt().toString();
   }
 
@@ -102,17 +100,19 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
     _velocity = context.read<MainScreenBloc>().state.velocity.toDouble();
     _velocityLimit =
         context.read<MainScreenBloc>().state.maxVelocity.toDouble();
+    _maxVelocity = context.read<MainScreenBloc>().state.maxVelocity.toDouble();
   }
 
   /// Callback that runs when velocity updates, which in turn updates stream.
   void _onAccelerate(double speed) {
     locator.getCurrentPosition().then(
       (Position updatedPosition) {
-        _velocity = (speed + updatedPosition.speed) / 2;
+        _velocity = updatedPosition.speed * 3.6;
         if (_velocity > _velocityLimit) _playAudio();
         if (_velocity > _maxVelocityPerDay)
           Hive.box('statistics').put('maxVelocityPerDay', _velocity);
         if (_velocity < 0) _velocity = 0;
+        if (_velocity >= _maxVelocity) _velocity = _maxVelocity;
         _velocityUpdatedStreamController.add(_velocity);
       },
     );
@@ -183,7 +183,8 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
                       rotateGesturesEnabled: false,
                       scrollGesturesEnabled: false,
                       onMapCreated: (controller) {
-                        Future.delayed(Duration(seconds: 1)).then(
+                        print('map Created');
+                        Future.delayed(Duration(milliseconds: 1)).then(
                           (_) {
                             controller.animateCamera(
                               CameraUpdate.newCameraPosition(
