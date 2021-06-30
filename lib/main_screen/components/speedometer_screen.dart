@@ -44,7 +44,7 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
     SizeConfig().init(context);
     return BlocBuilder<MainScreenBloc, MainScreenState>(
       builder: (context, state) {
-        return StreamBuilder<Object>(
+        return StreamBuilder<double>(
             stream: GeoService.instance.velocityUpdatedStreamController.stream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -83,7 +83,7 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
                         animationType: AnimationType.ease,
                         value: double.tryParse(
                           convertedVelocity(
-                              state.velocityUnit.toUpperCase(), _velocity),
+                              state.velocityUnit.toUpperCase(), snapshot.data!),
                         )!,
                         needleColor: Colors.white,
                         needleLength: getProportionateScreenHeight(2),
@@ -102,7 +102,7 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
                                 TextSpan(
                                   text: convertedVelocity(
                                       state.velocityUnit.toUpperCase(),
-                                      _velocity),
+                                      snapshot.data!),
                                   style: TextStyle(
                                       fontSize: 50,
                                       fontWeight: FontWeight.w700,
@@ -141,7 +141,7 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
   }
 
   void _getUserLocation() async {
-    Position position = await GeoService().determinePosition();
+    Position position = await GeoService.instance.determinePosition();
     setState(() {
       latitude = position.latitude;
       longitude = position.longitude;

@@ -33,9 +33,12 @@ class _LiveHudScreenState extends State<LiveHudScreen> {
     SizeConfig().init(context);
     return BlocBuilder<MainScreenBloc, MainScreenState>(
       builder: (context, state) {
-        return StreamBuilder<Object>(
+        return StreamBuilder<double>(
             stream: GeoService.instance.velocityUpdatedStreamController.stream,
             builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              }
               return Container(
                 color: Colors.black,
                 child: Center(
@@ -45,7 +48,7 @@ class _LiveHudScreenState extends State<LiveHudScreen> {
                     text: TextSpan(children: [
                       TextSpan(
                         text: convertedVelocity(
-                            state.velocityUnit.toUpperCase(), _velocity),
+                            state.velocityUnit.toUpperCase(), snapshot.data!),
                         style: TextStyle(
                             fontSize: 200,
                             fontFamily: 'BarlowCondensed-Regular',
