@@ -47,23 +47,24 @@ class GeoService {
   Future<Position> determinePosition() async {
     // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print('service enabled $serviceEnabled');
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
     }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
+    // permission = await Geolocator.checkPermission();
+    // print('permission is $permission');
+    // if (permission == LocationPermission.denied) {
+    //   permission = await Geolocator.requestPermission();
+      // if (permission == LocationPermission.denied) {
+      //   return Future.error('Location permissions are denied');
+      // }
+    // }
 
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
+    // if (permission == LocationPermission.deniedForever) {
+    //   return Future.error(
+    //       'Location permissions are permanently denied, we cannot request permissions.');
+    // }
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.

@@ -6,7 +6,6 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 /* Local dependencies */
-import '../models/statistics_item_model.dart';
 import '../size_config.dart';
 import '../utils/SubscriptionContainer.dart';
 import '../tab_bar/navigation_page.dart';

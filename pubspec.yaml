@@ -43,7 +43,6 @@ dependencies:
   cron: ^0.3.0
 
   # Tracking on map
-  location: ^4.2.0
   google_maps_flutter: ^2.0.6
   platform_maps_flutter: ^1.0.1
 
