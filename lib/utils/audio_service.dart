@@ -1,3 +1,4 @@
+/* External dependencies */
 import 'package:audioplayers/audioplayers.dart';
 
 class Audio {

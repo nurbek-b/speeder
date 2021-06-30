@@ -1,6 +1,5 @@
 /* External dependencies */
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/utils/geo_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
@@ -8,6 +7,7 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 /* Local dependencies */
 import '../../size_config.dart';
+import '../../utils/geo_service.dart';
 import 'main_screen_bloc.dart';
 import 'main_screen_state.dart';
 import 'main_screen_event.dart';
@@ -22,9 +22,6 @@ class LiveSpeedometerScreen extends StatefulWidget {
 class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
   late double latitude, longitude;
 
-  /// Current Velocity in m/s
-  late double _velocity;
-
   /// Velocity limit.
   late double _maxVelocity;
 
@@ -34,7 +31,6 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
   @override
   void initState() {
     super.initState();
-    _velocity = context.read<MainScreenBloc>().state.velocity.toDouble();
     _maxVelocity = context.read<MainScreenBloc>().state.maxVelocity.toDouble();
     _getUserLocation();
   }
@@ -44,14 +40,22 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
     SizeConfig().init(context);
     return BlocBuilder<MainScreenBloc, MainScreenState>(
       builder: (context, state) {
-        return StreamBuilder<Object>(
+        return StreamBuilder<double>(
+            initialData: 0,
             stream: GeoService.instance.velocityUpdatedStreamController.stream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return CircularProgressIndicator();
-              }
-              if (snapshot.connectionState == ConnectionState.done) {
-                print('Done Done Done');
+                return Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  color: Colors.black,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(Colors.white),
+                        backgroundColor: Color(0xFFFF5C00)),
+                  ),
+                );
               }
               return Container(
                 color: Colors.black,
@@ -83,7 +87,7 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
                         animationType: AnimationType.ease,
                         value: double.tryParse(
                           convertedVelocity(
-                              state.velocityUnit.toUpperCase(), _velocity),
+                              state.velocityUnit.toUpperCase(), snapshot.data!),
                         )!,
                         needleColor: Colors.white,
                         needleLength: getProportionateScreenHeight(2),
@@ -102,7 +106,7 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
                                 TextSpan(
                                   text: convertedVelocity(
                                       state.velocityUnit.toUpperCase(),
-                                      _velocity),
+                                      snapshot.data!),
                                   style: TextStyle(
                                       fontSize: 50,
                                       fontWeight: FontWeight.w700,
@@ -141,7 +145,7 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
   }
 
   void _getUserLocation() async {
-    Position position = await GeoService().determinePosition();
+    Position position = await GeoService.instance.determinePosition();
     setState(() {
       latitude = position.latitude;
       longitude = position.longitude;

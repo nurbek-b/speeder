@@ -1,5 +1,6 @@
 /* External dependencies */
 import 'package:cron/cron.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +11,13 @@ import 'package:hive/hive.dart';
 import 'tab_bar/tab_bar_bloc.dart';
 import 'main_screen/components/main_screen_bloc.dart';
 import 'models/statistics_item_model.dart';
-import 'subscription_screen/subscription_screen.dart';
 import 'tab_bar/navigation_page.dart';
 import 'utils/SubscriptionContainer.dart';
 
-bool _subscribed = false;
-
 void main() async {
-
   Hive.registerAdapter(StatisticItemAdapter());
 
   await SubscriptionContainer.instance.setupStorage();
-
-  _subscribed = await SubscriptionContainer.instance.isSubscribed().first;
 
   await Hive.openBox('statistics');
 
@@ -70,7 +65,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void dispose() async {
     Hive.close();
@@ -79,18 +73,37 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<TabBarBloc>(
-            create: (BuildContext context) => TabBarBloc()),
-        BlocProvider<MainScreenBloc>(
-            create: (BuildContext context) => MainScreenBloc()),
-      ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(fontFamily: 'BarlowCondensed-Regular'),
-          title: 'Speedometer: Mile Tracker',
-          home: _subscribed ? NavigationPage() : SubscriptionScreen()),
-    );
+    return FutureBuilder<LocationPermission>(
+        future: Geolocator.requestPermission(),
+        builder: (BuildContext context, AsyncSnapshot<LocationPermission> snapshot) {
+          if (!snapshot.hasData) {
+            return Container(
+              height: double.infinity,
+              width: double.infinity,
+              color: Colors.black,
+              child: Center(
+                child: CircularProgressIndicator(
+                    valueColor:
+                    AlwaysStoppedAnimation<Color>(Colors.white),
+                    backgroundColor: Color(0xFFFF5C00)),
+              ),
+            );
+          }
+          if (snapshot.data == LocationPermission.denied) {}
+
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<TabBarBloc>(
+                  create: (BuildContext context) => TabBarBloc()),
+              BlocProvider<MainScreenBloc>(
+                  create: (BuildContext context) => MainScreenBloc()),
+            ],
+            child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(fontFamily: 'BarlowCondensed-Regular'),
+                title: 'Speedometer: Mile Tracker',
+                home: NavigationPage()),
+          );
+        });
   }
 }

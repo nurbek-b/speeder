@@ -18,13 +18,16 @@ class CloseAndRestoreRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.asset(
-            'assets/icons/xmark_icon.png',
-            color: Color(0xFFB6B6B6),
-            height: 16,
+          InkWell(
+            onTap: onPressedIcon,
+            child: Image.asset(
+              'assets/icons/xmark_icon.png',
+              color: Color(0xFFB6B6B6),
+              height: 16,
+            ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: onPressedRestore,
             child: Text(
               'Restore purchases',
               style: TextStyle(

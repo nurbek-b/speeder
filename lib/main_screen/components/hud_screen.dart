@@ -17,14 +17,9 @@ class LiveHudScreen extends StatefulWidget {
 
 class _LiveHudScreenState extends State<LiveHudScreen> {
 
-  /// Current Velocity in m/s
-  late double _velocity;
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _velocity = context.read<MainScreenBloc>().state.velocity.toDouble();
   }
 
 
@@ -33,9 +28,23 @@ class _LiveHudScreenState extends State<LiveHudScreen> {
     SizeConfig().init(context);
     return BlocBuilder<MainScreenBloc, MainScreenState>(
       builder: (context, state) {
-        return StreamBuilder<Object>(
+        return StreamBuilder<double>(
+            initialData: 0,
             stream: GeoService.instance.velocityUpdatedStreamController.stream,
             builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  color: Colors.black,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                        valueColor:
+                        new AlwaysStoppedAnimation<Color>(Colors.white),
+                        backgroundColor: Color(0xFFFF5C00)),
+                  ),
+                );
+              }
               return Container(
                 color: Colors.black,
                 child: Center(
@@ -45,7 +54,7 @@ class _LiveHudScreenState extends State<LiveHudScreen> {
                     text: TextSpan(children: [
                       TextSpan(
                         text: convertedVelocity(
-                            state.velocityUnit.toUpperCase(), _velocity),
+                            state.velocityUnit.toUpperCase(), snapshot.data!),
                         style: TextStyle(
                             fontSize: 200,
                             fontFamily: 'BarlowCondensed-Regular',

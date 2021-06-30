@@ -45,6 +45,7 @@ class SubscriptionScreenState extends State<SubscriptionScreen>
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.detached) {
+      print('App is closing!!!');
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('yyyy-MM-dd').format(now);
       distance = Geolocator.distanceBetween(
@@ -134,6 +135,7 @@ class SubscriptionScreenState extends State<SubscriptionScreen>
 
   crossPress() {
     SubscriptionContainer.instance.register(null);
+    print('crosspressed');
     Navigator.pop(context);
   }
 

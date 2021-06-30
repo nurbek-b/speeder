@@ -27,17 +27,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool _subscribed = false;
-
-  @override
-  void initState() {
-    SubscriptionContainer.instance.isSubscribed().first.then((value) {
-      setState(() {
-        _subscribed = value;
-      });
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,51 +98,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     actual: state.scale,
                   ),
                 ),
-                _subscribed
-                    ? Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: getProportionateScreenHeight(1),
-                          horizontal: getProportionateScreenWidth(10),
-                        ),
-                        child: ProfileItem(
-                          onPressed: () {
-                            print('limit pressed');
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => BlocProvider.value(
-                                  value:
-                                      BlocProvider.of<MainScreenBloc>(context),
-                                  child: LimitAndAlert(),
-                                ),
-                              ),
-                            );
-                          },
-                          icon: 'assets/icons/limit_icon.png',
-                          title: 'SPEED LIMIT',
-                          actual: state.velocityLimit.toString(),
-                        ),
-                      )
-                    : Stack(
-                        children: [
-                          Padding(
+                StreamBuilder<bool>(
+                  initialData: false,
+                  stream: SubscriptionContainer.instance.isSubscribed(),
+                  builder: (context, isSubscribed) {
+                    return isSubscribed.data!
+                        ? Padding(
                             padding: EdgeInsets.symmetric(
                               vertical: getProportionateScreenHeight(1),
                               horizontal: getProportionateScreenWidth(10),
                             ),
                             child: ProfileItem(
-                              onPressed: () {},
+                              onPressed: () {
+                                print('limit pressed');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => BlocProvider.value(
+                                      value:
+                                          BlocProvider.of<MainScreenBloc>(context),
+                                      child: LimitAndAlert(),
+                                    ),
+                                  ),
+                                );
+                              },
                               icon: 'assets/icons/limit_icon.png',
                               title: 'SPEED LIMIT',
                               actual: state.velocityLimit.toString(),
                             ),
-                          ),
-                          Container(
-                            height: getProportionateScreenHeight(80),
-                            width: double.infinity,
-                            color: Colors.black54,
-                          ),
-                        ],
-                      ),
+                          )
+                        : Stack(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: getProportionateScreenHeight(1),
+                                  horizontal: getProportionateScreenWidth(10),
+                                ),
+                                child: ProfileItem(
+                                  onPressed: () {},
+                                  icon: 'assets/icons/limit_icon.png',
+                                  title: 'SPEED LIMIT',
+                                  actual: state.velocityLimit.toString(),
+                                ),
+                              ),
+                              Container(
+                                height: getProportionateScreenHeight(80),
+                                width: double.infinity,
+                                color: Colors.black54,
+                              ),
+                            ],
+                          );
+                  }
+                ),
                 SizedBox(
                   height: getProportionateScreenHeight(50),
                 ),

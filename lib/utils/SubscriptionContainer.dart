@@ -109,6 +109,7 @@ class SubscriptionContainer extends WidgetsBindingObserver {
 
   Future<bool> submit() async {
     await Hive.box('settings').put('subscribed', true);
+    _isSubscribed.add(true);
     return true;
   }
 
