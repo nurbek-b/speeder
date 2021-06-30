@@ -29,9 +29,6 @@ class SubscriptionScreenState extends State<SubscriptionScreen>
   /// Current position
   late Position _currentPosition;
 
-  getUserLocation() async {
-    _currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  }
 
   @override
   void initState() {
@@ -47,8 +44,7 @@ class SubscriptionScreenState extends State<SubscriptionScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async{
     super.didChangeAppLifecycleState(state);
-    await getUserLocation();
-    await Hive.openBox<StatisticItem>('statistics');
+
     if (state == AppLifecycleState.detached) {
       DateTime now = DateTime.now();
       String formattedDate = DateFormat('yyyy-MM-dd').format(now);

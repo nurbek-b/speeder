@@ -38,7 +38,7 @@ class SubscriptionContainer extends WidgetsBindingObserver {
   setupStorage() async {
     await Hive.initFlutter();
     await Hive.openBox('settings');
-    await Hive.openBox('statistics');
+
     _isSubscribed.add(Hive.box('settings').get('subscribed', defaultValue: false));
 
     await _emmitAppleInit();

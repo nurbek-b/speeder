@@ -17,13 +17,12 @@ import 'utils/SubscriptionContainer.dart';
 bool _subscribed = false;
 
 void main() async {
+
   Hive.registerAdapter(StatisticItemAdapter());
 
   await SubscriptionContainer.instance.setupStorage();
 
   _subscribed = await SubscriptionContainer.instance.isSubscribed().first;
-
-  await Hive.openBox('settings');
 
   await Hive.openBox('statistics');
 
@@ -33,15 +32,13 @@ void main() async {
 
   DateTime now = DateTime.now();
   String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-  print(formattedDate);
   var distanceInit = Hive.box('statistics').get(formattedDate) ?? null;
   var maxSpeed = Hive.box('statistics').get('maxVelocityPerDay') ?? null;
 
   if (distanceInit == null) {
-    print('adding data');
-    Hive.box('statistics').put(formattedDate, 0.0.toString());
+    Hive.box('statistics').put(formattedDate, 0.0);
   } else if (maxSpeed == null) {
-    Hive.box('statistics').put('maxVelocityPerDay', 0);
+    Hive.box('statistics').put('maxVelocityPerDay', 0.0);
   }
 
   final cron = Cron();
