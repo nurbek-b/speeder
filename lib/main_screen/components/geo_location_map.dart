@@ -51,8 +51,7 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
                 ? Scaffold(
                     bottomNavigationBar: StreamBuilder<double>(
                         initialData: 0,
-                        stream: GeoService
-                            .instance.velocityUpdatedStreamController.stream,
+                        stream: GeoService.instance.velocityUpdatedStreamController.stream,
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
                             return Container(
