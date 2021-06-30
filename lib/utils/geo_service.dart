@@ -52,19 +52,19 @@ class GeoService {
       return Future.error('Location services are disabled.');
     }
 
-    // permission = await Geolocator.checkPermission();
-    // print('permission is $permission');
-    // if (permission == LocationPermission.denied) {
-    //   permission = await Geolocator.requestPermission();
-      // if (permission == LocationPermission.denied) {
-      //   return Future.error('Location permissions are denied');
-      // }
-    // }
+    permission = await Geolocator.checkPermission();
+    print('permission is $permission');
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
 
-    // if (permission == LocationPermission.deniedForever) {
-    //   return Future.error(
-    //       'Location permissions are permanently denied, we cannot request permissions.');
-    // }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
