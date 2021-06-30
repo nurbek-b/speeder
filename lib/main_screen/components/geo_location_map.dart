@@ -73,7 +73,7 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
         return _subscribed
             ? Scaffold(
                 bottomNavigationBar: StreamBuilder<Object>(
-                    stream: GeoService().velocityUpdatedStreamController.stream,
+                    stream: GeoService.instance.velocityUpdatedStreamController.stream,
                     builder: (context, snapshot) {
                       return Container(
                         height: getProportionateScreenHeight(200),

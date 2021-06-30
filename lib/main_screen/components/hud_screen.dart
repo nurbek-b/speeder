@@ -34,7 +34,7 @@ class _LiveHudScreenState extends State<LiveHudScreen> {
     return BlocBuilder<MainScreenBloc, MainScreenState>(
       builder: (context, state) {
         return StreamBuilder<Object>(
-            stream: GeoService().velocityUpdatedStreamController.stream,
+            stream: GeoService.instance.velocityUpdatedStreamController.stream,
             builder: (context, snapshot) {
               return Container(
                 color: Colors.black,

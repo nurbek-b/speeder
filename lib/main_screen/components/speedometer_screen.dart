@@ -33,7 +33,6 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _velocity = context.read<MainScreenBloc>().state.velocity.toDouble();
     _maxVelocity = context.read<MainScreenBloc>().state.maxVelocity.toDouble();
@@ -46,8 +45,14 @@ class _LiveSpeedometerScreenState extends State<LiveSpeedometerScreen> {
     return BlocBuilder<MainScreenBloc, MainScreenState>(
       builder: (context, state) {
         return StreamBuilder<Object>(
-            stream: GeoService().velocityUpdatedStreamController.stream,
+            stream: GeoService.instance.velocityUpdatedStreamController.stream,
             builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return CircularProgressIndicator();
+              }
+              if (snapshot.connectionState == ConnectionState.done) {
+                print('Done Done Done');
+              }
               return Container(
                 color: Colors.black,
                 child: SfRadialGauge(axes: <RadialAxis>[

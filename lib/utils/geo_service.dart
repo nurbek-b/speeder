@@ -8,6 +8,14 @@ import 'audio_service.dart';
 typedef TraceCallback(newLocation);
 
 class GeoService {
+  GeoService._privateConstructor();
+
+  static final GeoService _instance =
+  GeoService._privateConstructor();
+
+  static GeoService get instance => _instance;
+
+
   late bool serviceEnabled;
   late LocationPermission permission;
   late StreamSubscription locationSubscription;
@@ -24,7 +32,7 @@ class GeoService {
   GeolocatorPlatform locator = GeolocatorPlatform.instance;
 
   /// Stream that emits values when velocity updates
-  StreamController<double> velocityUpdatedStreamController = StreamController<double>();
+  StreamController<double> velocityUpdatedStreamController = StreamController.broadcast();
 
 
   GeoService(){
@@ -81,7 +89,9 @@ class GeoService {
           Hive.box('statistics').put('maxVelocityPerDay', _velocity);
         if (_velocity < 0) _velocity = 0;
         if (_velocity >= _maxVelocity) _velocity = _maxVelocity;
-        velocityUpdatedStreamController.add(_velocity);
+        print("Velocity ${_velocity.runtimeType}");
+        velocityUpdatedStreamController.sink.add(_velocity);
+
       },
     );
   }
