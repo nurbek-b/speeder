@@ -135,7 +135,6 @@ class SubscriptionScreenState extends State<SubscriptionScreen>
 
   crossPress() {
     SubscriptionContainer.instance.register(null);
-    print('crosspressed');
     Navigator.pop(context);
   }
 

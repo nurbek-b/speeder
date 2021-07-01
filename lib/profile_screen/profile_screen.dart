@@ -9,6 +9,7 @@ import '../size_config.dart';
 import '../main_screen/components/main_screen_bloc.dart';
 import '../main_screen/components/main_screen_state.dart';
 import '../utils/SubscriptionContainer.dart';
+import '../subscription_screen/subscription_screen.dart';
 import 'components/limit_and_alert.dart';
 import 'components/profile_item.dart';
 import 'components/scale_checkbox.dart';
@@ -27,7 +28,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -61,7 +61,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: ProfileItem(
                     onPressed: () {
-                      print('units pressed');
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => BlocProvider.value(
@@ -83,7 +82,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: ProfileItem(
                     onPressed: () {
-                      print('scale pressed');
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => BlocProvider.value(
@@ -99,56 +97,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 StreamBuilder<bool>(
-                  initialData: false,
-                  stream: SubscriptionContainer.instance.isSubscribed(),
-                  builder: (context, isSubscribed) {
-                    return isSubscribed.data!
-                        ? Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: getProportionateScreenHeight(1),
-                              horizontal: getProportionateScreenWidth(10),
-                            ),
-                            child: ProfileItem(
-                              onPressed: () {
-                                print('limit pressed');
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => BlocProvider.value(
-                                      value:
-                                          BlocProvider.of<MainScreenBloc>(context),
-                                      child: LimitAndAlert(),
+                    initialData: false,
+                    stream: SubscriptionContainer.instance.isSubscribed(),
+                    builder: (context, isSubscribed) {
+                      return isSubscribed.data!
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: getProportionateScreenHeight(1),
+                                horizontal: getProportionateScreenWidth(10),
+                              ),
+                              child: ProfileItem(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => BlocProvider.value(
+                                        value: BlocProvider.of<MainScreenBloc>(
+                                            context),
+                                        child: LimitAndAlert(),
+                                      ),
                                     ),
+                                  );
+                                },
+                                icon: 'assets/icons/limit_icon.png',
+                                title: 'SPEED LIMIT',
+                                actual: state.velocityLimit.toString(),
+                              ),
+                            )
+                          : Stack(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: getProportionateScreenHeight(1),
+                                    horizontal: getProportionateScreenWidth(10),
                                   ),
-                                );
-                              },
-                              icon: 'assets/icons/limit_icon.png',
-                              title: 'SPEED LIMIT',
-                              actual: state.velocityLimit.toString(),
-                            ),
-                          )
-                        : Stack(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: getProportionateScreenHeight(1),
-                                  horizontal: getProportionateScreenWidth(10),
+                                  child: ProfileItem(
+                                    onPressed: () {},
+                                    icon: 'assets/icons/limit_icon.png',
+                                    title: 'SPEED LIMIT',
+                                    actual: state.velocityLimit.toString(),
+                                  ),
                                 ),
-                                child: ProfileItem(
-                                  onPressed: () {},
-                                  icon: 'assets/icons/limit_icon.png',
-                                  title: 'SPEED LIMIT',
-                                  actual: state.velocityLimit.toString(),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        CupertinoPageRoute(
+                                            fullscreenDialog: true,
+                                            builder: (context) =>
+                                                SubscriptionScreen()));
+                                  },
+                                  child: Container(
+                                    height: getProportionateScreenHeight(80),
+                                    width: double.infinity,
+                                    color: Colors.black54,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                height: getProportionateScreenHeight(80),
-                                width: double.infinity,
-                                color: Colors.black54,
-                              ),
-                            ],
-                          );
-                  }
-                ),
+                              ],
+                            );
+                    }),
                 SizedBox(
                   height: getProportionateScreenHeight(50),
                 ),
@@ -219,7 +224,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           Spacer(),
-                          Icon(CupertinoIcons.chevron_forward,
+                          Icon(
+                            CupertinoIcons.chevron_forward,
                             color: Colors.white,
                           ),
                         ],

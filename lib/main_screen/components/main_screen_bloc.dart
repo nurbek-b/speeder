@@ -39,7 +39,6 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
       case MainScreenEventType.changeVelocityUnit:
         final ChangeVelocityUnitEvent ev = event as ChangeVelocityUnitEvent;
         String velocityUnit = ev.velocityUnit;
-        print('Velocity unit $velocityUnit');
 
         yield state.cloneWith(velocityUnit: velocityUnit);
         break;
@@ -48,7 +47,6 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
         final ChangeScaleEvent ev = event as ChangeScaleEvent;
         int maxVelocity = ev.maxVelocity;
         String scale = ev.scale;
-        print('Max velocity $maxVelocity');
 
         yield state.cloneWith(maxVelocity: maxVelocity, scale: scale);
         break;
@@ -56,7 +54,6 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
       case MainScreenEventType.setAlert:
         final SetAlertOverVelocityEvent ev = event as SetAlertOverVelocityEvent;
         bool alert = ev.alert;
-        print('Alert $alert');
 
         yield state.cloneWith(overVelocityAlert: alert);
         break;
@@ -64,7 +61,6 @@ class MainScreenBloc extends Bloc<MainScreenEvent, MainScreenState> {
       case MainScreenEventType.setLimit:
         final SetVelocityLimitEvent ev = event as SetVelocityLimitEvent;
         int limit = ev.velocityLimit;
-        print('Limit $limit');
 
         yield state.cloneWith(velocityLimit: limit);
         break;

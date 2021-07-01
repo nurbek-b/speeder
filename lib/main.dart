@@ -75,7 +75,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return FutureBuilder<LocationPermission>(
         future: Geolocator.requestPermission(),
-        builder: (BuildContext context, AsyncSnapshot<LocationPermission> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<LocationPermission> snapshot) {
           if (!snapshot.hasData) {
             return Container(
               height: double.infinity,
@@ -83,8 +84,7 @@ class _MyAppState extends State<MyApp> {
               color: Colors.black,
               child: Center(
                 child: CircularProgressIndicator(
-                    valueColor:
-                    AlwaysStoppedAnimation<Color>(Colors.white),
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     backgroundColor: Color(0xFFFF5C00)),
               ),
             );

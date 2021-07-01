@@ -52,13 +52,11 @@ class GeoService {
   Future<Position> determinePosition() async {
     // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    print('service enabled $serviceEnabled');
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
     }
 
     permission = await Geolocator.checkPermission();
-    print('permission is $permission');
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
@@ -85,7 +83,6 @@ class GeoService {
       Hive.box('statistics').put('maxVelocityPerDay', _velocity);
     if (_velocity < 0) _velocity = 0;
     if (_velocity >= _maxVelocity) _velocity = _maxVelocity;
-    print("Velocity ${_velocity.runtimeType}");
     velocityUpdatedStreamController.sink.add(_velocity);
   }
 

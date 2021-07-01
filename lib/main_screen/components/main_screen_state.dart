@@ -42,11 +42,11 @@ class MainScreenState {
     /* Speeds */
     int velocity = 0,
     int minVelocity = 0,
-    int maxVelocity = 120,
-    int velocityLimit = 120,
+    int? maxVelocity,
+    int? velocityLimit,
     bool overVelocityAlert = false,
-    String velocityUnit = 'KMH',
-    String scale = '0-120',
+    String? velocityUnit,
+    String? scale,
 
     /* Geo */
     double? latitude,
@@ -61,11 +61,11 @@ class MainScreenState {
       /* Speeds */
       velocity: velocity,
       minVelocity: minVelocity,
-      maxVelocity: maxVelocity,
-      velocityLimit: velocityLimit,
+      maxVelocity: maxVelocity ?? this.maxVelocity,
+      velocityLimit: velocityLimit ?? this.velocityLimit,
       overVelocityAlert: overVelocityAlert,
-      velocityUnit: velocityUnit,
-      scale: scale,
+      velocityUnit: velocityUnit ?? this.velocityUnit,
+      scale: scale ?? this.scale,
 
       /* Geo */
       latitude: latitude ?? this.latitude,

@@ -72,7 +72,8 @@ class _LimitAndAlertState extends State<LimitAndAlert> {
                           CupertinoTextThemeData(pickerTextStyle: TextStyle()),
                     ),
                     child: CupertinoPicker(
-                      scrollController: FixedExtentScrollController(initialItem: 3),
+                      scrollController:
+                          FixedExtentScrollController(initialItem: 3),
                       magnification: 1.5,
                       useMagnifier: true,
                       onSelectedItemChanged: (value) {

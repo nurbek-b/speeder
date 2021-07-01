@@ -23,123 +23,113 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return StreamBuilder<bool>(
-      initialData: false,
-      stream: SubscriptionContainer.instance.isSubscribed(),
-      builder: (context, isSubscribed) {
-        print(isSubscribed.data);
-        return isSubscribed.data!
-            ? Scaffold(
-                appBar: AppBar(
-                  toolbarHeight: getProportionateScreenHeight(110),
-                  backgroundColor: Color(0xFF252525),
-                  title: Text(
-                    'STATISTICS',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontFamily: 'BarlowCondensed-Regular',
-                    ),
-                  ),
-                ),
-                body: Container(
-                  color: Colors.black,
-                  child: ValueListenableBuilder(
-                    valueListenable:
-                        Hive.box<StatisticItem>('statisticsItem').listenable(),
-                    builder: (context, Box<StatisticItem> box, _) {
-                      if (box.values.isEmpty)
-                        return Center(
-                          child: Text(
-                            "Statistics list is empty",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        );
-                      return ListView.builder(
-                        itemCount: box.values.length,
-                        itemBuilder: (context, index) {
-                          StatisticItem res = box.getAt(index)!;
-                          return StatisticsItem(
-                            date: res.date.toString(),
-                            distance: res.distance,
-                            maxVelocity: res.maxSpeed,
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              )
-            : Stack(
-                children: [
-                  Scaffold(
-                    appBar: AppBar(
-                      toolbarHeight: getProportionateScreenHeight(110),
-                      backgroundColor: Color(0xFF252525),
-                      title: Text(
-                        'STATISTICS',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontFamily: 'BarlowCondensed-Regular',
-                        ),
+        initialData: false,
+        stream: SubscriptionContainer.instance.isSubscribed(),
+        builder: (context, isSubscribed) {
+          print(isSubscribed.data);
+          return isSubscribed.data!
+              ? Scaffold(
+                  appBar: AppBar(
+                    toolbarHeight: getProportionateScreenHeight(110),
+                    backgroundColor: Color(0xFF252525),
+                    title: Text(
+                      'STATISTICS',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 32,
+                        fontFamily: 'BarlowCondensed-Regular',
                       ),
                     ),
-                    body: Container(
-                      color: Colors.black,
-                      child: ValueListenableBuilder(
-                        valueListenable:
-                            Hive.box<StatisticItem>('statisticsItem').listenable(),
-                        builder: (context, Box<StatisticItem> box, _) {
-                          if (box.values.isEmpty)
-                            return Center(
-                              child: Text(
-                                "Statistics list is empty",
-                                style: TextStyle(color: Colors.white),
-                              ),
+                  ),
+                  body: Container(
+                    color: Colors.black,
+                    child: ValueListenableBuilder(
+                      valueListenable: Hive.box<StatisticItem>('statisticsItem')
+                          .listenable(),
+                      builder: (context, Box<StatisticItem> box, _) {
+                        if (box.values.isEmpty)
+                          return Center(
+                            child: Text(
+                              "Statistics list is empty",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        return ListView.builder(
+                          itemCount: box.values.length,
+                          itemBuilder: (context, index) {
+                            StatisticItem res = box.getAt(index)!;
+                            return StatisticsItem(
+                              date: res.date.toString(),
+                              distance: res.distance,
+                              maxVelocity: res.maxSpeed,
                             );
-                          return ListView.builder(
-                            itemCount: box.values.length,
-                            itemBuilder: (context, index) {
-                              StatisticItem res = box.getAt(index)!;
-                              return StatisticsItem(
-                                date: res.date.toString(),
-                                distance: res.distance,
-                                maxVelocity: res.maxSpeed,
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    color: Colors.black54,
-                    child: Center(
-                      child: Image.asset('assets/icons/lock_icon.png'),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment(0.95, -0.85),
-                    child: IconButton(
-                      icon: Icon(
-                        CupertinoIcons.clear,
-                        size: 30,
-                      ),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                            CupertinoPageRoute(
-                                fullscreenDialog: true,
-                                builder: (context) => SubscriptionScreen()));
-                        print('Cross on lock pressed!');
+                          },
+                        );
                       },
                     ),
                   ),
-                ],
-              );
-      }
-    );
+                )
+              : Stack(
+                  children: [
+                    Scaffold(
+                      appBar: AppBar(
+                        toolbarHeight: getProportionateScreenHeight(110),
+                        backgroundColor: Color(0xFF252525),
+                        title: Text(
+                          'STATISTICS',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 32,
+                            fontFamily: 'BarlowCondensed-Regular',
+                          ),
+                        ),
+                      ),
+                      body: Container(
+                        color: Colors.black,
+                        child: ValueListenableBuilder(
+                          valueListenable:
+                              Hive.box<StatisticItem>('statisticsItem')
+                                  .listenable(),
+                          builder: (context, Box<StatisticItem> box, _) {
+                            if (box.values.isEmpty)
+                              return Center(
+                                child: Text(
+                                  "Statistics list is empty",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              );
+                            return ListView.builder(
+                              itemCount: box.values.length,
+                              itemBuilder: (context, index) {
+                                StatisticItem res = box.getAt(index)!;
+                                return StatisticsItem(
+                                  date: res.date.toString(),
+                                  distance: res.distance,
+                                  maxVelocity: res.maxSpeed,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(CupertinoPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => SubscriptionScreen()));
+                      },
+                      child: Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        color: Colors.black54,
+                        child: Center(
+                          child: Image.asset('assets/icons/lock_icon.png'),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+        });
   }
 }

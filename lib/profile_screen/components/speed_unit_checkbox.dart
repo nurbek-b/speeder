@@ -7,7 +7,6 @@ import '../../main_screen/components/main_screen_bloc.dart';
 import '../../main_screen/components/main_screen_event.dart';
 import '../../size_config.dart';
 
-
 class SpeedUnitCheckBox extends StatefulWidget {
   SpeedUnitCheckBox({Key? key}) : super(key: key);
 
@@ -72,7 +71,9 @@ class _SpeedUnitCheckBoxState extends State<SpeedUnitCheckBox> {
                       _isCheckedKPH = value!;
                       _isCheckedMPH = false;
                     });
-                    context.read<MainScreenBloc>().add(ChangeVelocityUnitEvent(velocityUnit: 'KMH'));
+                    context
+                        .read<MainScreenBloc>()
+                        .add(ChangeVelocityUnitEvent(velocityUnit: 'KMH'));
                   },
                 ),
               ),
@@ -107,7 +108,9 @@ class _SpeedUnitCheckBoxState extends State<SpeedUnitCheckBox> {
                       _isCheckedMPH = value!;
                       _isCheckedKPH = false;
                     });
-                    context.read<MainScreenBloc>().add(ChangeVelocityUnitEvent(velocityUnit: 'MPH'));
+                    context
+                        .read<MainScreenBloc>()
+                        .add(ChangeVelocityUnitEvent(velocityUnit: 'MPH'));
                   },
                 ),
               ),

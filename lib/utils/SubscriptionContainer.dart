@@ -53,8 +53,6 @@ class SubscriptionContainer extends WidgetsBindingObserver {
   Future<void> _emmitAppleInit() async {
     try {
       final String a = await apphudplatform.invokeMethod('AppleEmmit');
-      print(a);
-      print('Emmit Apple success1');
     } on PlatformException catch (e) {
       print(e);
     }

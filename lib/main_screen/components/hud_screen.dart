@@ -16,13 +16,6 @@ class LiveHudScreen extends StatefulWidget {
 }
 
 class _LiveHudScreenState extends State<LiveHudScreen> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -40,7 +33,7 @@ class _LiveHudScreenState extends State<LiveHudScreen> {
                   child: Center(
                     child: CircularProgressIndicator(
                         valueColor:
-                        new AlwaysStoppedAnimation<Color>(Colors.white),
+                            new AlwaysStoppedAnimation<Color>(Colors.white),
                         backgroundColor: Color(0xFFFF5C00)),
                   ),
                 );

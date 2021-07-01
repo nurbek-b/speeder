@@ -11,13 +11,13 @@ class ProfileItem extends StatelessWidget {
   final String actual;
   final GestureTapCallback onPressed;
 
-  const ProfileItem({
-    Key? key,
-    required this.icon,
-    required this.title,
-    required this.actual,
-    required this.onPressed
-  }) : super(key: key);
+  const ProfileItem(
+      {Key? key,
+      required this.icon,
+      required this.title,
+      required this.actual,
+      required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +33,13 @@ class ProfileItem extends StatelessWidget {
         onTap: onPressed,
         child: Row(
           children: [
-            SizedBox(width: getProportionateScreenWidth(10),),
+            SizedBox(
+              width: getProportionateScreenWidth(10),
+            ),
             Image.asset(icon),
-            SizedBox(width: getProportionateScreenWidth(10),),
+            SizedBox(
+              width: getProportionateScreenWidth(10),
+            ),
             Text(
               title,
               style: TextStyle(
@@ -55,12 +59,16 @@ class ProfileItem extends StatelessWidget {
                 fontFamily: 'BarlowCondensed-Regular',
               ),
             ),
-            SizedBox(width: getProportionateScreenWidth(10),),
+            SizedBox(
+              width: getProportionateScreenWidth(10),
+            ),
             Icon(
               CupertinoIcons.right_chevron,
               color: Colors.white,
             ),
-            SizedBox(width: getProportionateScreenWidth(5),)
+            SizedBox(
+              width: getProportionateScreenWidth(5),
+            )
           ],
         ),
       ),
