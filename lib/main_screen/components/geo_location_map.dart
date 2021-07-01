@@ -254,11 +254,7 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
                               ),
                               color: Colors.white,
                               onPressed: () {
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => NavigationPage()),
-                                      (Route<dynamic> route) => false,
-                                );
+                                Navigator.of(context).pop();
                                 // Navigator.of(context).pushReplacement(
                                 //     CupertinoPageRoute(builder: (context) => MainScreen()));
                               },
