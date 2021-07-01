@@ -10,9 +10,9 @@ import '../../size_config.dart';
 import '../../utils/geo_service.dart';
 import '../../utils/SubscriptionContainer.dart';
 import '../../subscription_screen/subscription_screen.dart';
+import '../../tab_bar/navigation_page.dart';
 import 'main_screen_bloc.dart';
 import 'main_screen_state.dart';
-import 'main_screen_event.dart';
 
 class LiveGeoMap extends StatefulWidget {
   const LiveGeoMap({Key? key}) : super(key: key);
@@ -254,8 +254,13 @@ class _LiveGeoMapState extends State<LiveGeoMap> {
                               ),
                               color: Colors.white,
                               onPressed: () {
-                                MainScreenBloc()
-                                    .add(MainScreenShowSpeedometerEvent());
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => NavigationPage()),
+                                      (Route<dynamic> route) => false,
+                                );
+                                // Navigator.of(context).pushReplacement(
+                                //     CupertinoPageRoute(builder: (context) => MainScreen()));
                               },
                             ),
                           ),

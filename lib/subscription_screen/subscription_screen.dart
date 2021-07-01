@@ -128,8 +128,7 @@ class SubscriptionScreenState extends State<SubscriptionScreen>
     final result = await SubscriptionContainer.instance.submit();
     if (result) {
       SubscriptionContainer.instance.register(null);
-      Navigator.of(context).pushReplacement(
-          CupertinoPageRoute(builder: (context) => NavigationPage()));
+      Navigator.pop(context);
     }
   }
 

@@ -23,7 +23,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return StreamBuilder<bool>(
-        initialData: false,
+        initialData: true,
         stream: SubscriptionContainer.instance.isSubscribed(),
         builder: (context, isSubscribed) {
           print(isSubscribed.data);
